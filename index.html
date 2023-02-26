@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir, "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica, "Helvetica Neue", sans-serif;
+            font-size: large;
+        }
+
+        label {
+            display: block;
+        }
+
+        input {
+            font-size: inherit;
+            font-family: inherit;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #212121;
+            background-color: #ffffff;
+            border: 1px solid #898EA4;
+            border-radius: 5px;
+            box-shadow: none;
+            max-width: 100%;
+            display: inline-block;
+        }
+
+        button, [role="button"], input[type="submit"], input[type="reset"], input[type="button"], label[type="button"] {
+            border: none;
+            border-radius: 5px;
+            background-color: #0d47a1;
+            font-size: 1rem;
+            color: #ffffff;
+            padding: 0.7rem 0.9rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <p><label>Min</label><input type="number" value="1" id="min-input" /></p>
+        <p><label>Max</label><input type="number" value="9" id="max-input" /></p>
+        <button id="generate-btn">Generate!</button>
+        <p id="result-text">5555</p>
+    </div>
+
+    <script>
+        const minInput    = document.getElementById('min-input')
+        const maxInput    = document.getElementById('max-input')
+        const generateBtn = document.getElementById('generate-btn')
+        const resultText  = document.getElementById('result-text')
+
+        const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
+
+        const generateNumber = function() {
+            const min = +minInput.value
+            const max = +maxInput.value
+
+            const result = rand(min, max)
+            resultText.innerText = result
+        }
+
+        generateBtn.addEventListener('click', generateNumber)
+    </script>
+
+</body>
+
+</html>
