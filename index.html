@@ -45,23 +45,35 @@
         <p><label>Min</label><input type="number" value="1" id="min-input" /></p>
         <p><label>Max</label><input type="number" value="9" id="max-input" /></p>
         <button id="generate-btn">Generate!</button>
-        <p id="result-text">5555</p>
+        <p id="result-text"></p>
     </div>
 
     <script>
+        const localStorageKey = 'prevResults'
+
         const minInput    = document.getElementById('min-input')
         const maxInput    = document.getElementById('max-input')
         const generateBtn = document.getElementById('generate-btn')
         const resultText  = document.getElementById('result-text')
 
+        const prevResults = JSON.parse(localStorage.getItem(localStorageKey)) || []
+
+        if (prevResults.length) {
+            const lastResult = prevResults[prevResults.length - 1]
+            minInput.value = lastResult.min
+            maxInput.value = lastResult.max
+        }
+
         const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
         const generateNumber = function() {
-            const min = +minInput.value
-            const max = +maxInput.value
-
+            const min    = +minInput.value
+            const max    = +maxInput.value
             const result = rand(min, max)
+
             resultText.innerText = result
+            prevResults.push({ min, max, result })
+            localStorage.setItem(localStorageKey, JSON.stringify(prevResults))
         }
 
         generateBtn.addEventListener('click', generateNumber)
