@@ -5,7 +5,8 @@
     <title>Random number generator</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
         }
 
@@ -32,7 +33,12 @@
             display: inline-block;
         }
 
-        button, [role="button"], input[type="submit"], input[type="reset"], input[type="button"], label[type="button"] {
+        button,
+        [role="button"],
+        input[type="submit"],
+        input[type="reset"],
+        input[type="button"],
+        label[type="button"] {
             border: none;
             border-radius: 5px;
             background-color: #0d47a1;
@@ -55,24 +61,50 @@
             padding: 20px 40px;
             border-radius: 15px;
         }
+
+        .prev-list {
+            position: absolute;
+            top: 0;
+            list-style-type: none;
+            color: #ccc;
+            padding: 0 20px;
+        }
+
+        .prev-list li {
+            padding-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .prev-list-inputs {
+            left: 0;
+        }
+
+        .prev-list-results {
+            right: 0;
+        }
     </style>
 </head>
 
 <body>
+    <ul id="prev-inputs" class="prev-list prev-list-inputs" reversed="reversed"></ul>
     <div class="wrapper">
         <p><label>Min</label><input type="number" value="1" id="min-input" /></p>
         <p><label>Max</label><input type="number" value="9" id="max-input" /></p>
         <button id="generate-btn">Generate!</button>
-        <p id="result-text"></p>
+        <p id="result-text" reversed="reversed"></p>
     </div>
+    <ul id="prev-results" class="prev-list prev-list-results"></ul>
 
     <script>
         const localStorageKey = 'prevResults'
 
-        const minInput    = document.getElementById('min-input')
-        const maxInput    = document.getElementById('max-input')
+        const minInput = document.getElementById('min-input')
+        const maxInput = document.getElementById('max-input')
         const generateBtn = document.getElementById('generate-btn')
-        const resultText  = document.getElementById('result-text')
+        const resultText = document.getElementById('result-text')
+
+        const prevInputsList = document.getElementById('prev-inputs')
+        const prevResultsList = document.getElementById('prev-results')
 
         const prevResults = JSON.parse(localStorage.getItem(localStorageKey)) || []
 
@@ -82,19 +114,38 @@
             maxInput.value = lastResult.max
         }
 
+        const inputToElement  = result => `<li data-min=${result.min} data-max=${result.max}>${result.min}⬌${result.max}</li>`
+        const resultToElement = result => `<li data-min=${result.min} data-max=${result.max} data-result=${result.result}>${result.min}⬌${result.max} = ${result.result}</li>`
+
+        const renderPrevs = function () {
+            prevInputsList.innerHTML  = [...new Set(prevResults.map(inputToElement))].join('')
+            prevResultsList.innerHTML = prevResults.map(resultToElement).join('')
+        }
+
         const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
-        const generateNumber = function() {
-            const min    = +minInput.value
-            const max    = +maxInput.value
+        const loadResult = function(event) {
+            const el = event.target
+            minInput.value = el.getAttribute('data-min')
+            maxInput.value = el.getAttribute('data-max')
+            resultText.innerText = el.getAttribute('data-result')
+        }
+
+        const generateNumber = function () {
+            const min = +minInput.value
+            const max = +maxInput.value
             const result = rand(min, max)
 
             resultText.innerText = result
             prevResults.push({ min, max, result })
-            localStorage.setItem(localStorageKey, JSON.stringify(prevResults))
+            localStorage.setItem(localStorageKey, JSON.stringify(prevResults.slice(-100)))
+            renderPrevs()
         }
 
+        renderPrevs()
         generateBtn.addEventListener('click', generateNumber)
+        prevInputsList.addEventListener('click', loadResult)
+        prevResultsList.addEventListener('click', loadResult)
     </script>
 
 </body>
