@@ -66,13 +66,12 @@
         .prev-list {
             position: absolute;
             top: 0;
-            list-style-type: none;
             color: #ccc;
-            padding: 0 20px;
+            padding: 10px;
+            text-align: center;
         }
 
-        .prev-list li {
-            padding-bottom: 5px;
+        .prev-list tr {
             cursor: pointer;
         }
 
@@ -83,18 +82,19 @@
         .prev-list-results {
             right: 0;
         }
+
     </style>
 </head>
 
 <body>
-    <ul id="prev-inputs" class="prev-list prev-list-inputs" reversed="reversed"></ul>
+    <table id="prev-inputs" class="prev-list prev-list-inputs" reversed="reversed"></table>
     <div class="wrapper">
         <p><label>Min</label><input type="number" value="1" id="min-input" /></p>
         <p><label>Max</label><input type="number" value="9" id="max-input" /></p>
         <button id="generate-btn">Generate!</button>
-        <p id="result-text" reversed="reversed"></p>
+        <p id="result-text"></p>
     </div>
-    <ul id="prev-results" class="prev-list prev-list-results"></ul>
+    <table id="prev-results" class="prev-list prev-list-results" reversed="reversed"></table>
 
     <script>
         const localStorageKey = 'prevResults'
@@ -115,18 +115,21 @@
             maxInput.value = lastResult.max
         }
 
-        const inputToElement  = result => `<li data-min=${result.min} data-max=${result.max}>${result.min}⬌${result.max}</li>`
-        const resultToElement = result => `<li data-min=${result.min} data-max=${result.max} data-result=${result.result}>${result.min}⬌${result.max} = ${result.result}</li>`
+        const inputToElement = result => `<tr data-min=${result.min} data-max=${result.max}><td>${result.min}</td><td>⬌</td><td>${result.max}</td></tr>`
+        const resultToElement = result => `<tr data-min=${result.min} data-max=${result.max} data-result=${result.result}><td>${result.min}</td><td>⬌</td><td>${result.max}</td><td> = </td><td>${result.result}</td></tr>`
 
         const renderPrevs = function () {
-            prevInputsList.innerHTML  = [...new Set(prevResults.map(inputToElement))].join('')
+            prevInputsList.innerHTML = [...new Set(prevResults.map(inputToElement))].join('')
             prevResultsList.innerHTML = prevResults.map(resultToElement).join('')
         }
 
         const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
-        const loadResult = function(event) {
-            const el = event.target
+        const loadResult = function (event) {
+            let el = event.target
+            if (el.tagName == 'TD') el = el.parentElement
+            if (el.tagName == 'TABLE') return
+
             minInput.value = el.getAttribute('data-min')
             maxInput.value = el.getAttribute('data-max')
             resultText.innerText = el.getAttribute('data-result')
