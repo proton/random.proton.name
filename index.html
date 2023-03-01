@@ -127,7 +127,7 @@
 
         const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
-        const loadResult = function (event) {
+        const loadResult = function(event) {
             let el = event.target
             if (el.tagName == 'TD') el = el.parentElement
             if (el.tagName == 'TABLE') return
@@ -137,7 +137,7 @@
             resultText.innerText = el.getAttribute('data-result')
         }
 
-        const generateNumber = function () {
+        const generateNumber = function() {
             const min = +minInput.value
             const max = +maxInput.value
             const result = rand(min, max)
@@ -148,10 +148,17 @@
             renderPrevs()
         }
 
+        const selectAll = function(event) {
+            const el = event.target
+            el.select()
+        }
+
         renderPrevs()
         generateBtn.addEventListener('click', generateNumber)
         prevInputsList.addEventListener('click', loadResult)
         prevResultsList.addEventListener('click', loadResult)
+        minInput.addEventListener('click', selectAll)
+        maxInput.addEventListener('click', selectAll)
     </script>
 
 </body>
