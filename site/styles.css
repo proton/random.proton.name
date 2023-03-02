@@ -1,0 +1,108 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir, "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica, "Helvetica Neue", sans-serif;
+  font-size: large;
+}
+
+label {
+  display: block;
+}
+
+input {
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #212121;
+  background-color: #ffffff;
+  border: 1px solid #898EA4;
+  border-radius: 5px;
+  box-shadow: none;
+  max-width: 100%;
+  display: inline-block;
+}
+
+button,
+[role="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+label[type="button"] {
+  border: none;
+  border-radius: 5px;
+  background-color: #0d47a1;
+  font-size: 1rem;
+  color: #ffffff;
+  padding: 0.7rem 0.9rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+
+body {
+  background: gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  background-color: orange;
+  padding: 20px 40px;
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.prev-list {
+  position: absolute;
+  top: 0;
+  color: #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.prev-list tr {
+  cursor: pointer;
+}
+
+.prev-list-inputs {
+  left: 0;
+}
+
+.prev-list-results {
+  right: 0;
+}
+
+
+.other-web-sites {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-family: Helvetica;
+  font-size: 14px;
+  background: white;
+
+  opacity: 0.5;
+  z-index: 1000;
+}
+
+.other-web-sites > li {
+  display: inline-block;
+  padding: 10px 10px;
+  background: white;
+}
+
+.other-web-sites > li.current {
+  background: #eee;
+}
+
+.other-web-sites a {
+  text-decoration: none;
+  color: #434343;
+}

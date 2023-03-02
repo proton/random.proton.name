@@ -6,86 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="favicon.png">
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir, "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica, "Helvetica Neue", sans-serif;
-            font-size: large;
-        }
-
-        label {
-            display: block;
-        }
-
-        input {
-            font-size: inherit;
-            font-family: inherit;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            color: #212121;
-            background-color: #ffffff;
-            border: 1px solid #898EA4;
-            border-radius: 5px;
-            box-shadow: none;
-            max-width: 100%;
-            display: inline-block;
-        }
-
-        button,
-        [role="button"],
-        input[type="submit"],
-        input[type="reset"],
-        input[type="button"],
-        label[type="button"] {
-            border: none;
-            border-radius: 5px;
-            background-color: #0d47a1;
-            font-size: 1rem;
-            color: #ffffff;
-            padding: 0.7rem 0.9rem;
-            margin: 0.5rem 0;
-            cursor: pointer;
-        }
-
-        body {
-            background: gray;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .wrapper {
-            background-color: orange;
-            padding: 20px 40px;
-            border-radius: 15px;
-            z-index: 1;
-        }
-
-        .prev-list {
-            position: absolute;
-            top: 0;
-            color: #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .prev-list tr {
-            cursor: pointer;
-        }
-
-        .prev-list-inputs {
-            left: 0;
-        }
-
-        .prev-list-results {
-            right: 0;
-        }
-
-    </style>
+    <link rel="stylesheet" type ="text/css" href="styles.css">
 </head>
 
 <body>
@@ -97,6 +18,9 @@
         <p id="result-text"></p>
     </div>
     <table id="prev-results" class="prev-list prev-list-results" reversed="reversed"></table>
+
+    <ul class="other-web-sites"></ul>
+    <script type="text/javascript" src="https://proton.name/other-links.js"></script>
 
     <script>
         const localStorageKey = 'prevResults'
