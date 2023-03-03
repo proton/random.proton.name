@@ -47,6 +47,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .wrapper {
@@ -62,7 +63,6 @@ body {
   color: #ccc;
   padding: 10px;
   text-align: center;
-  overflow: hidden;
 }
 
 .prev-list tbody {
