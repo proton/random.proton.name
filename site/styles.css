@@ -62,10 +62,22 @@ body {
   color: #ccc;
   padding: 10px;
   text-align: center;
+  overflow: hidden;
+}
+
+.prev-list tbody {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .prev-list tr {
   cursor: pointer;
+  display: flex;
+}
+
+.prev-list td {
+  flex: 1;
+  padding: 2px;
 }
 
 .prev-list-inputs {
