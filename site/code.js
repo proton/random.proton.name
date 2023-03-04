@@ -9,19 +9,17 @@ const resultText = document.getElementById('result-text')
 const prevInputsList = document.getElementById('prev-inputs')
 const prevResultsList = document.getElementById('prev-results')
 
-const prevResults = JSON.parse(localStorage.getItem(localStorageKey)) || []
+let prevResults = JSON.parse(localStorage.getItem(localStorageKey)) || []
 
-if (prevResults.length) {
-  const lastResult = prevResults[prevResults.length - 1]
-  minInput.value = lastResult.min
-  maxInput.value = lastResult.max
-}
+const lastResult = prevResults ? prevResults[0] : { min: 1, max: 9 }
+minInput.value   = lastResult.min
+maxInput.value   = lastResult.max
 
-const inputToElement = result => `<tr data-min=${result.min} data-max=${result.max}><td>${result.min}</td><td>⬌</td><td>${result.max}</td></tr>`
-const resultToElement = result => `<tr data-min=${result.min} data-max=${result.max} data-result=${result.result}><td>${result.min}</td><td>⬌</td><td>${result.max}</td><td> = </td><td>${result.result}</td></tr>`
+const inputToElement = result => `<tr data-min=${result.min} data-max=${result.max}><td>${result.min} ⬌ ${result.max}</td></tr>`
+const resultToElement = result => `<tr data-min=${result.min} data-max=${result.max} data-result=${result.result}><td>${result.min} ⬌ ${result.max}</td><td> = </td><td>${result.result}</td></tr>`
 
 const renderPrevs = function () {
-  prevInputsList.innerHTML = [...new Set(prevResults.map(inputToElement))].join('')
+  prevInputsList.innerHTML  = [...new Set(prevResults.map(inputToElement))].join('')
   prevResultsList.innerHTML = prevResults.map(resultToElement).join('')
 }
 
@@ -47,8 +45,9 @@ const generateNumber = function () {
   resultText.offsetWidth
   resultText.classList.add('update-animation')
 
-  prevResults.push({ min, max, result })
-  localStorage.setItem(localStorageKey, JSON.stringify(prevResults.slice(-100)))
+  prevResults.unshift({ min, max, result })
+  prevResults = prevResults.slice(0, 100)
+  localStorage.setItem(localStorageKey, JSON.stringify(prevResults))
   renderPrevs()
 }
 

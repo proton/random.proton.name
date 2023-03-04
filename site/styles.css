@@ -81,20 +81,20 @@ body {
   text-align: center;
 }
 
-.prev-list tbody {
+/* .prev-list tbody {
   display: flex;
   flex-direction: column-reverse;
-}
+} */
 
 .prev-list tr {
   cursor: pointer;
-  display: flex;
+  /* display: flex; */
 }
 
-.prev-list td {
+/* .prev-list td {
   flex: 1;
   padding: 2px;
-}
+} */
 
 .prev-list-inputs {
   left: 0;
