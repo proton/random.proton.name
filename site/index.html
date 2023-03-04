@@ -15,7 +15,7 @@
         <p><label>Min</label><input type="number" value="1" id="min-input" /></p>
         <p><label>Max</label><input type="number" value="9" id="max-input" /></p>
         <button id="generate-btn">Generate!</button>
-        <p id="result-text"></p>
+        <p><span id="result-text"></span></p>
     </div>
     <table id="prev-results" class="prev-list prev-list-results" reversed="reversed"></table>
 
@@ -67,6 +67,10 @@
             const result = rand(min, max)
 
             resultText.innerText = result
+            resultText.classList.remove('update-animation')
+            resultText.offsetWidth
+            resultText.classList.add('update-animation')
+
             prevResults.push({ min, max, result })
             localStorage.setItem(localStorageKey, JSON.stringify(prevResults.slice(-100)))
             renderPrevs()

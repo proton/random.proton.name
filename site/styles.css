@@ -57,6 +57,22 @@ body {
   z-index: 1;
 }
 
+#result-text {
+  padding: 2px 8px;
+  border-radius: 15px;
+}
+
+@keyframes on-update {
+  0%   { background-color: orange; }
+  50%  { background-color: rgb(255, 96, 38); }
+  100% { background-color: orange; }
+}
+
+.update-animation {
+  animation-name: on-update;
+  animation-duration: 1s;
+}
+
 .prev-list {
   position: absolute;
   top: 0;
