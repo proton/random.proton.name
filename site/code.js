@@ -57,8 +57,13 @@ const selectAll = function (event) {
 }
 
 renderPrevs()
+
 generateBtn.addEventListener('click', generateNumber)
+minInput.addEventListener('keydown', event => event.key === 'Enter' ? generateNumber() : null)
+maxInput.addEventListener('keydown', event => event.key === 'Enter' ? generateNumber() : null)
+
 prevInputsList.addEventListener('click', loadResult)
 prevResultsList.addEventListener('click', loadResult)
+
 minInput.addEventListener('click', selectAll)
 maxInput.addEventListener('click', selectAll)
