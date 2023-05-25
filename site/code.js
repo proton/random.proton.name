@@ -11,7 +11,7 @@ const prevResultsList = document.getElementById('prev-results')
 
 let prevResults = JSON.parse(localStorage.getItem(localStorageKey)) || []
 
-const lastResult = prevResults ? prevResults[0] : { min: 1, max: 9 }
+const lastResult = prevResults.length ? prevResults[0] : { min: 1, max: 9 }
 minInput.value   = lastResult.min
 maxInput.value   = lastResult.max
 
