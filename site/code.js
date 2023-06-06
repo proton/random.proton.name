@@ -116,8 +116,8 @@ const generateRandomizer = data => {
 
 for (const randomizer of randomizers) {
   wrapper.appendChild(generateRandomizer(randomizer))
-  toggleRemoveButton()
 }
+toggleRemoveButton()
 
 const inputToElement = result => `<tr data-min=${result.min} data-max=${result.max}><td>${result.min} ⬌ ${result.max}</td></tr>`
 const resultToElement = result => `<tr data-min=${result.min} data-max=${result.max} data-result=${result.result}><td>${result.min} ⬌ ${result.max}</td><td> = </td><td>${result.result}</td></tr>`
@@ -130,16 +130,30 @@ const renderPrevs = function () {
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
 const loadResult = event => {
-  const el = event.target
+  let el = event.target
   if (el.tagName == 'TD') el = el.parentElement
   if (el.tagName == 'TABLE') return
 
-  // allRandomizers
-  // const randomizers = document.querySelectorAll('.randomizer')
+  const min = +el.getAttribute('data-min')
+  const max = +el.getAttribute('data-max')
+  const result = el.getAttribute('data-result')
 
-  // minInput.value = el.getAttribute('data-min')
-  // maxInput.value = el.getAttribute('data-max')
-  // resultText.innerText = el.getAttribute('data-result')
+  let randomizer = allRandomizers().find(randomizer => {
+    const r_min = +randomizer.querySelector('.min-input').value
+    const r_max = +randomizer.querySelector('.max-input').value
+    return r_min === min && r_max === max
+  })
+
+  if (!randomizer) {
+    randomizer = generateRandomizer({ min, max })
+    wrapper.appendChild(randomizer)
+    toggleRemoveButton()
+    saveRandomizers()
+  }
+
+  randomizer.querySelector('.min-input').value = min
+  randomizer.querySelector('.max-input').value = max
+  randomizer.querySelector('.result-text').innerText = result
 }
 
 renderPrevs()
