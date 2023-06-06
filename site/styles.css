@@ -50,14 +50,27 @@ body {
   overflow: hidden;
 }
 
-.wrapper {
+.randomizer {
   background-color: orange;
   padding: 20px 40px;
   border-radius: 15px;
   z-index: 1;
+  margin: 10px;
+  position: relative;
+  display: inline-block;
 }
 
-#result-text {
+.buttons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.buttons > a {
+  cursor: pointer;
+}
+
+.result-text {
   padding: 2px 8px;
   border-radius: 15px;
 }
@@ -81,20 +94,9 @@ body {
   text-align: center;
 }
 
-/* .prev-list tbody {
-  display: flex;
-  flex-direction: column-reverse;
-} */
-
 .prev-list tr {
   cursor: pointer;
-  /* display: flex; */
 }
-
-/* .prev-list td {
-  flex: 1;
-  padding: 2px;
-} */
 
 .prev-list-inputs {
   left: 0;
