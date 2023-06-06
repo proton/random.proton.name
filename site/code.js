@@ -4,6 +4,8 @@ const prevResultsList = document.getElementById('prev-results')
 
 const defaultRandomizer = { min: 1, max: 9 }
 
+const allRandomizers = _ => [...document.querySelectorAll('.randomizer')]
+
 const prevResultsLocalStorageKey = 'prevResults'
 let prevResults = []
 try { prevResults = JSON.parse(localStorage.getItem(prevResultsLocalStorageKey)) || [] } catch { }
@@ -16,14 +18,19 @@ if (randomizers.length === 0) {
   const lastResult = prevResults.length ? prevResults[0] : defaultRandomizer
   randomizers.push(lastResult)
 }
-const saveRandomizers = prevResults => localStorage.setItem(randomizersLocalStorageKey, JSON.stringify(prevResults))
+const saveRandomizers = _ => {
+  const data = allRandomizers().map(randomizer => {
+    const min = +randomizer.querySelector('.min-input').value
+    const max = +randomizer.querySelector('.max-input').value
+    return { min, max }
+  })
+  localStorage.setItem(randomizersLocalStorageKey, JSON.stringify(data))
+}
 
 const findParent = (element, className) => {
   while (!element.classList.contains(className)) element = element.parentElement
   return element
 }
-
-const allRandomizers = _ => document.querySelectorAll('.randomizer')
 
 const toggleRemoveButton = _ => {
   const randomizers = allRandomizers()
