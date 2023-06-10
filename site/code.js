@@ -41,6 +41,18 @@ const toggleRemoveButton = _ => {
   }
 }
 
+const randomizerInputs = randomizer => ['.min-input', '.max-input'].map(selector => randomizer.querySelector(selector))
+
+const updateInputSizes = event => {
+  const randomizer = findParent(event.target, 'randomizer')
+  const inputs = randomizerInputs(randomizer)
+  const inputSize = Math.max(...inputs.map(input => input.value.length + 1), 10)
+
+  for (const input of inputs) {
+    input.style.width = `${inputSize}ch`
+  }
+}
+
 const generateNumber = event => {
   saveRandomizers()
 
@@ -83,11 +95,15 @@ const removeRandomizer = event => {
 }
 
 const addRandomizerListeners = randomizer => {
+  const inputs = randomizerInputs(randomizer)
+
+  for (const input of inputs) {
+    input.addEventListener('keydown', generateNumberOnEnter)
+    input.addEventListener('click', selectAll)
+    input.addEventListener('input', updateInputSizes)
+  }
+
   randomizer.querySelector('.generate-btn').addEventListener('click', generateNumber)
-  randomizer.querySelector('.min-input').addEventListener('keydown', generateNumberOnEnter)
-  randomizer.querySelector('.max-input').addEventListener('keydown', generateNumberOnEnter)
-  randomizer.querySelector('.min-input').addEventListener('click', selectAll)
-  randomizer.querySelector('.max-input').addEventListener('click', selectAll)
   randomizer.querySelector('.buttons > .add').addEventListener('click', addRandomizer)
   randomizer.querySelector('.buttons > .remove').addEventListener('click', removeRandomizer)
 }
@@ -100,15 +116,15 @@ const generateRandomizer = data => {
     <a class='remove'>➖</a>
     <a class='add'>➕</a>
     </div>
-    <p><label>Min</label><input type="number" class="min-input" /></p>
-    <p><label>Max</label><input type="number" class="max-input" /></p>
-    <button class="generate-btn">Generate!</button>
-    <p><span class="result-text"></span></p>
+    <p class='row'><label>Min</label><input type="number" class="min-input" /></p>
+    <p class='row'><label>Max</label><input type="number" class="max-input" /></p>
+    <p class='row'><button class="generate-btn">Generate!</button><span class="result-text"></span></p>
   `
 
   randomizer.querySelector('.min-input').value = data.min
   randomizer.querySelector('.max-input').value = data.max
 
+  updateInputSizes({ target: randomizer })
   addRandomizerListeners(randomizer)
 
   return randomizer
