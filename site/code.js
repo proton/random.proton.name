@@ -20,9 +20,10 @@ if (randomizers.length === 0) {
 }
 const saveRandomizers = _ => {
   const data = allRandomizers().map(randomizer => {
-    const min = +randomizerMin(randomizer).value
-    const max = +randomizerMax(randomizer).value
-    return { min, max }
+    const min  = +randomizerMin(randomizer).value
+    const max  = +randomizerMax(randomizer).value
+    const name = randomizerName(randomizer).innerText
+    return { min, max, name }
   })
   localStorage.setItem(randomizersLocalStorageKey, JSON.stringify(data))
 }
@@ -104,6 +105,7 @@ const renameRandomizer = event => {
   const nameTag     = randomizerName(randomizer)
   const newName     = prompt('Enter new name', nameTag.innerText)
   nameTag.innerText = newName
+  saveRandomizers()
 }
 
 const addRandomizerListeners = randomizer => {
