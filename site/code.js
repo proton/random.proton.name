@@ -20,8 +20,8 @@ if (randomizers.length === 0) {
 }
 const saveRandomizers = _ => {
   const data = allRandomizers().map(randomizer => {
-    const min = +randomizer.querySelector('.min-input').value
-    const max = +randomizer.querySelector('.max-input').value
+    const min = +randomizerMin(randomizer).value
+    const max = +randomizerMax(randomizer).value
     return { min, max }
   })
   localStorage.setItem(randomizersLocalStorageKey, JSON.stringify(data))
@@ -41,12 +41,17 @@ const toggleRemoveButton = _ => {
   }
 }
 
-const randomizerInputs = randomizer => ['.min-input', '.max-input'].map(selector => randomizer.querySelector(selector))
+const randomizerMin    = randomizer => randomizer.querySelector('.min-input')
+const randomizerMax    = randomizer => randomizer.querySelector('.max-input')
+const randomizerRezult = randomizer => randomizer.querySelector('.result-text')
+const randomizerName   = randomizer => randomizer.querySelector('.randomizer-name')
+
+const randomizerInputs = randomizer => [randomizerMin(randomizer), randomizerMax(randomizer)]
 
 const updateInputSizes = event => {
   const randomizer = findParent(event.target, 'randomizer')
-  const inputs = randomizerInputs(randomizer)
-  const inputSize = Math.max(...inputs.map(input => input.value.length + 1), 10)
+  const inputs     = randomizerInputs(randomizer)
+  const inputSize  = Math.max(...inputs.map(input => input.value.length + 1), 10)
 
   for (const input of inputs) {
     input.style.width = `${inputSize}ch`
@@ -58,11 +63,11 @@ const generateNumber = event => {
 
   const randomizer = findParent(event.target, 'randomizer')
 
-  const min = +randomizer.querySelector('.min-input').value
-  const max = +randomizer.querySelector('.max-input').value
+  const min    = +randomizerMin(randomizer).value
+  const max    = +randomizerMax(randomizer).value
   const result = rand(min, max)
 
-  const resultText = randomizer.querySelector('.result-text')
+  const resultText = randomizerRezult(randomizer)
   resultText.innerText = result
   resultText.classList.remove('update-animation')
   resultText.offsetWidth
@@ -94,6 +99,13 @@ const removeRandomizer = event => {
   saveRandomizers()
 }
 
+const renameRandomizer = event => {
+  const randomizer  = findParent(event.target, 'randomizer')
+  const nameTag     = randomizerName(randomizer)
+  const newName     = prompt('Enter new name', nameTag.innerText)
+  nameTag.innerText = newName
+}
+
 const addRandomizerListeners = randomizer => {
   const inputs = randomizerInputs(randomizer)
 
@@ -106,12 +118,15 @@ const addRandomizerListeners = randomizer => {
   randomizer.querySelector('.generate-btn').addEventListener('click', generateNumber)
   randomizer.querySelector('.buttons > .add').addEventListener('click', addRandomizer)
   randomizer.querySelector('.buttons > .remove').addEventListener('click', removeRandomizer)
+
+  randomizer.addEventListener('dblclick', renameRandomizer)
 }
 
 const generateRandomizer = data => {
   const randomizer = document.createElement('div')
   randomizer.className = 'randomizer'
   randomizer.innerHTML = `
+    <span class='randomizer-name'>${data.name || ''}</span>
     <div class='buttons'>
     <a class='remove'>➖</a>
     <a class='add'>➕</a>
@@ -121,8 +136,8 @@ const generateRandomizer = data => {
     <p class='row'><button class="generate-btn">Generate!</button><span class="result-text"></span></p>
   `
 
-  randomizer.querySelector('.min-input').value = data.min
-  randomizer.querySelector('.max-input').value = data.max
+  randomizerMin(randomizer).value = data.min
+  randomizerMax(randomizer).value = data.max
 
   updateInputSizes({ target: randomizer })
   addRandomizerListeners(randomizer)
@@ -155,8 +170,8 @@ const loadResult = event => {
   const result = el.getAttribute('data-result')
 
   let randomizer = allRandomizers().find(randomizer => {
-    const r_min = +randomizer.querySelector('.min-input').value
-    const r_max = +randomizer.querySelector('.max-input').value
+    const r_min = +randomizerMin(randomizer).value
+    const r_max = +randomizerMax(randomizer).value
     return r_min === min && r_max === max
   })
 
@@ -167,9 +182,9 @@ const loadResult = event => {
     saveRandomizers()
   }
 
-  randomizer.querySelector('.min-input').value = min
-  randomizer.querySelector('.max-input').value = max
-  randomizer.querySelector('.result-text').innerText = result
+  randomizerMin(randomizer).value        = min
+  randomizerMax(randomizer).value        = max
+  randomizerRezult(randomizer).innerText = result
 }
 
 renderPrevs()
