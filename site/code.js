@@ -101,8 +101,12 @@ const removeRandomizer = event => {
 }
 
 const renameRandomizer = event => {
-  const randomizer  = findParent(event.target, 'randomizer')
-  const nameTag     = randomizerName(randomizer)
+  const target     = event.target
+  const randomizer = findParent(target, 'randomizer')
+  const nameTag    = randomizerName(randomizer)
+
+  if (target !== randomizer && target !== nameTag) return
+
   const newName     = prompt('Enter new name', nameTag.innerText)
   nameTag.innerText = newName
   saveRandomizers()
