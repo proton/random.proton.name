@@ -76,6 +76,10 @@ body {
   cursor: pointer;
 }
 
+.left-buttons > a.changeColor {
+  opacity: 0.2;
+}
+
 .buttons {
   position: absolute;
   top: 10px;
