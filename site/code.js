@@ -5,6 +5,7 @@ const prevResultsList = document.getElementById('prev-results')
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
 const colors = ['#ffa500', '#ffffff', '#f9dc24', '#ff6347', '#e0e0e0', '#00bcd4', '#8e44ad', '#01b95d']
+const randomColor = _ => colors[rand(0, colors.length - 1)]
 
 const defaultRandomizer = { min: 1, max: 9 }
 
@@ -103,6 +104,12 @@ const addRandomizer = event => {
   saveRandomizers()
 }
 
+const changeColor = event => {
+  const randomizer = findParent(event.target, 'randomizer')
+  setRandomizerColor(randomizer, randomColor())
+  saveRandomizers()
+}
+
 const removeRandomizer = event => {
   const randomizer = findParent(event.target, 'randomizer')
   randomizer.remove()
@@ -131,6 +138,7 @@ const addRandomizerListeners = randomizer => {
     input.addEventListener('input', updateInputSizes)
   }
 
+  randomizer.querySelector('.left-buttons > .changeColor').addEventListener('click', changeColor)
   randomizer.querySelector('.generate-btn').addEventListener('click', generateNumber)
   randomizer.querySelector('.buttons > .add').addEventListener('click', addRandomizer)
   randomizer.querySelector('.buttons > .remove').addEventListener('click', removeRandomizer)
@@ -142,6 +150,9 @@ const generateRandomizer = data => {
   const randomizer = document.createElement('div')
   randomizer.className = 'randomizer'
   randomizer.innerHTML = `
+    <div class='left-buttons'>
+    <a class='changeColor' alt='Change background color'>❀</a>
+    </div>
     <span class='randomizer-name'>${data.name || ''}</span>
     <div class='buttons'>
     <a class='remove'>➖</a>
@@ -154,7 +165,7 @@ const generateRandomizer = data => {
 
   randomizerMin(randomizer).value = data.min
   randomizerMax(randomizer).value = data.max
-  setRandomizerColor(randomizer, data.color || colors[rand(0, colors.length - 1)])
+  setRandomizerColor(randomizer, data.color || randomColor())
 
   updateInputSizes({ target: randomizer })
   addRandomizerListeners(randomizer)

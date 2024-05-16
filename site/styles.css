@@ -66,6 +66,16 @@ body {
   display: inline-block;
 }
 
+.left-buttons {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.left-buttons > a {
+  cursor: pointer;
+}
+
 .buttons {
   position: absolute;
   top: 10px;
