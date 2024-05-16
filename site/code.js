@@ -2,6 +2,10 @@ const wrapper = document.getElementById('wrapper')
 const prevInputsList = document.getElementById('prev-inputs')
 const prevResultsList = document.getElementById('prev-results')
 
+const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
+
+const colors = ['#ffa500', '#ffffff', '#f9dc24', '#ff6347', '#e0e0e0', '#00bcd4', '#8e44ad', '#01b95d']
+
 const defaultRandomizer = { min: 1, max: 9 }
 
 const allRandomizers = _ => [...document.querySelectorAll('.randomizer')]
@@ -20,10 +24,11 @@ if (randomizers.length === 0) {
 }
 const saveRandomizers = _ => {
   const data = allRandomizers().map(randomizer => {
-    const min  = +randomizerMin(randomizer).value
-    const max  = +randomizerMax(randomizer).value
-    const name = randomizerName(randomizer).innerText
-    return { min, max, name }
+    const min   = +randomizerMin(randomizer).value
+    const max   = +randomizerMax(randomizer).value
+    const name  = randomizerName(randomizer).innerText
+    const color = randomizerColor(randomizer)
+    return { min, max, name, color }
   })
   localStorage.setItem(randomizersLocalStorageKey, JSON.stringify(data))
 }
@@ -46,6 +51,11 @@ const randomizerMin    = randomizer => randomizer.querySelector('.min-input')
 const randomizerMax    = randomizer => randomizer.querySelector('.max-input')
 const randomizerRezult = randomizer => randomizer.querySelector('.result-text')
 const randomizerName   = randomizer => randomizer.querySelector('.randomizer-name')
+const randomizerColor  = randomizer => window.getComputedStyle(randomizer).backgroundColor
+
+const setRandomizerColor = (randomizer, color) => {
+  randomizer.style.backgroundColor = color
+}
 
 const randomizerInputs = randomizer => [randomizerMin(randomizer), randomizerMax(randomizer)]
 
@@ -144,6 +154,7 @@ const generateRandomizer = data => {
 
   randomizerMin(randomizer).value = data.min
   randomizerMax(randomizer).value = data.max
+  setRandomizerColor(randomizer, data.color || colors[rand(0, colors.length - 1)])
 
   updateInputSizes({ target: randomizer })
   addRandomizerListeners(randomizer)
@@ -164,15 +175,13 @@ const renderPrevs = function () {
   prevResultsList.innerHTML = prevResults.map(resultToElement).join('')
 }
 
-const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
-
 const loadResult = event => {
   let el = event.target
   if (el.tagName == 'TD') el = el.parentElement
   if (el.tagName == 'TABLE') return
 
-  const min = +el.getAttribute('data-min')
-  const max = +el.getAttribute('data-max')
+  const min    = +el.getAttribute('data-min')
+  const max    = +el.getAttribute('data-max')
   const result = el.getAttribute('data-result')
 
   let randomizer = allRandomizers().find(randomizer => {

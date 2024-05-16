@@ -58,7 +58,6 @@ body {
 }
 
 .randomizer {
-  background-color: orange;
   padding: 20px 40px 10px;
   border-radius: 15px;
   z-index: 1;
@@ -95,7 +94,7 @@ body {
 @keyframes on-update {
   0%   { background-color: orange; }
   50%  { background-color: rgb(255, 96, 38); }
-  100% { background-color: orange; }
+  100% { background-color: rgb(255,165,0, 0); }
 }
 
 .update-animation {
