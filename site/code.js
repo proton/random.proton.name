@@ -4,7 +4,7 @@ const prevResultsList = document.getElementById('prev-results')
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
-const colors = ['#ffa500', '#ffffff', '#f9dc24', '#ff6347', '#e0e0e0', '#00bcd4', '#8e44ad', '#01b95d']
+const colors = ['#ffa500', '#ffffff', '#f9dc24', '#ff6347', '#e0e0e0', '#00bcd4', '#8e44ad', '#01b95d', '#e1f7d5', '#c9c9ff', '#f1cbff', '#afd275']
 const randomColor = _ => colors[rand(0, colors.length - 1)]
 
 const defaultRandomizer = { min: 1, max: 9 }
