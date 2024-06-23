@@ -217,3 +217,5 @@ renderPrevs()
 
 prevInputsList.addEventListener('click', loadResult)
 prevResultsList.addEventListener('click', loadResult)
+
+dragula([document.querySelector('#wrapper')])
