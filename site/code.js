@@ -218,4 +218,10 @@ renderPrevs()
 prevInputsList.addEventListener('click', loadResult)
 prevResultsList.addEventListener('click', loadResult)
 
-dragula([document.querySelector('#wrapper')])
+dragula(
+  [document.querySelector('#wrapper')], {
+    moves: function (el, source, handle, sibling) {
+      return handle.classList.contains('randomizer')
+    }
+  }
+)
