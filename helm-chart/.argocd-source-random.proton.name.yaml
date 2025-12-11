@@ -4,5 +4,5 @@ helm:
     value: registry.proton.name/proton/random.proton.name
     forcestring: true
   - name: image.tag
-    value: "20015820226"
+    value: "20122137338"
     forcestring: true
